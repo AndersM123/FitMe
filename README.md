@@ -1,0 +1,81 @@
+🧥 FitMe — Your Virtual Wardrobe
+
+FitMe is a modern web app that lets users digitize their clothing, organize outfits, and try them on virtually.
+Built with Angular (frontend) and a Node/Python backend, it combines AI background removal and an interactive drag-and-drop mannequin to make outfit planning simple and fun.
+
+✨ Features
+
+📸 Upload Your Clothes
+Take or upload photos of your clothes directly from your phone or computer.
+
+🧠 AI-Powered Background Removal
+Automatically removes image backgrounds using a Hugging Face model for clean, transparent cutouts.
+
+🧍 Virtual Mannequin
+Drag and drop clothing items onto a mannequin to visualize outfit combinations.
+
+👕 Organized Wardrobe
+Store, categorize, and preview all your items in a personalized digital wardrobe.
+
+⚡ Progressive Web App (PWA)
+Works on both desktop and mobile — installable like a native iPhone app.
+
+🛠️ Tech Stack
+Area	Technology
+Frontend	Angular, TypeScript, SCSS
+Backend	Node.js / Express, Python (for AI model integration)
+AI / ML	Hugging Face Trendyol/background-removal
+Storage	Local uploads (S3 or Cloudinary ready)
+Version Control	Git + GitHub
+Architecture	Modular monorepo (FitmeFrontend + FitmeBackend)
+
+🚀 Project Structure
+  FitMe/
+  ├── FitmeFrontend/           # Angular PWA
+  │   ├── src/app/             # Components & services
+  │   └── ...
+  ├── FitmeBackend/            # Node.js / Express backend
+  │   ├── python_backend/      # Python-based AI utilities
+  │   │   └── background-removal/
+  │   └── ...
+  └── README.md
+
+🧩 Setup Guide
+1. Clone the repo
+  git clone https://github.com/AndersM123/FitMe.git
+  cd FitMe
+
+2. Frontend setup
+  cd FitmeFrontend
+  npm install
+  npm start
+
+The app will start on http://localhost:4200
+
+3. The backend setup
+  cd ../FitmeBackend
+  npm install
+  npm run start
+
+4. The backend setup for the ai model
+  cd python_backend/background-removal
+  pip install -r requirements.txt
+  python app.py
+
+
+🤝 Contributing
+
+Pull requests are welcome! For major changes, please open an issue first to discuss what you’d like to add or modify.
+
+🧠 Inspiration
+
+This project was created to explore how AI + fashion + PWA can make digital wardrobes both practical and fun.
+Whether you're planning outfits, organizing your closet, or testing how things fit together — FitMe gives you a smart, visual way to manage your style.
+
+📸 Demo Preview (coming soon)
+
+A short demo video or screenshots of the virtual wardrobe will be added here.
+
+📄 License
+
+MIT © 2025 Anders M.
