@@ -1,0 +1,87 @@
+<!-- src/app/wardrobe/wardrobe.html -->
+<div class="wardrobe">
+  <!-- Header -->
+  <div class="wardrobe-header">
+    <h1>My Virtual Wardrobe</h1>
+    <button (click)="addItem()" class="add-btn">
+      <span class="add-icon">+</span>
+      Add New Item
+    </button>
+  </div>
+
+  <!-- Category Filter -->
+  <div class="category-filter">
+    <button
+      *ngFor="let category of categories"
+      [class.active]="selectedCategory() === category.value"
+      (click)="selectCategory(category.value)"
+      class="category-btn">
+      <span class="category-icon">{{ category.icon }}</span>
+      {{ category.label }}
+    </button>
+  </div>
+
+  <!-- Items Count -->
+  <div class="items-info">
+    <p>{{ filteredItems().length }} items</p>
+  </div>
+
+  <!-- Items Grid -->
+  <div class="items-grid">
+    <div *ngFor="let item of filteredItems()"
+         class="item-card"
+         draggable="true"
+         (dragstart)="onDragStart($event, item)">
+
+      <!-- Upload Modal -->
+      <div *ngIf="showUpload()" class="upload-modal">
+        <div class="upload-modal-content">
+          <button class="close-btn" (click)="showUpload.set(false)">×</button>
+          <app-file-upload (clothingAdded)="onClothingAdded($event)"></app-file-upload>
+        </div>
+      </div>
+
+      <!-- Favorite Button -->
+      <button
+        class="favorite-btn"
+        [class.active]="item.isFavorite"
+        (click)="toggleFavorite(item.id)"
+        title="Toggle favorite">
+        ♥
+      </button>
+
+      <!-- Delete Button -->
+      <button
+        class="delete-btn"
+        (click)="deleteItem(item.id)"
+        title="Delete item">
+        ×
+      </button>
+
+      <!-- Image -->
+      <div class="item-image">
+        <img [src]="item.imageUrl" [alt]="item.name" loading="lazy">
+      </div>
+
+      <!-- Item Info -->
+      <div class="item-info">
+        <h3>{{ item.name }}</h3>
+        <div class="item-details">
+          <span class="item-category">{{ item.category }}</span>
+          <span class="item-color" [style.background-color]="item.color.toLowerCase()">
+            {{ item.color }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="filteredItems().length === 0" class="empty-state">
+    <div class="empty-icon">👗</div>
+    <h3>No items found</h3>
+    <p *ngIf="selectedCategory() === 'all'">Start building your wardrobe!</p>
+    <p *ngIf="selectedCategory() !== 'all'">No {{ selectedCategory() }} items yet.</p>
+    <button (click)="addItem()" class="primary-btn">Add Your First Item</button>
+  </div>
+</div>

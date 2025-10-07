@@ -1,0 +1,180 @@
+/* src/app/mannequin/mannequin.css */
+.mannequin-container {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  padding: 20px;
+  color: white;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  perspective: 1000px; /* adds 3D perspective */
+}
+
+.mannequin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.mannequin-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.clear-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.clear-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.mannequin-area {
+  flex: 1;
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.mannequin-base {
+  position: absolute;
+  width: 200px;
+  height: 400px;
+  z-index: 0;
+  transform: rotateY(-5deg) rotateX(2deg); /* Slight 3D angle */
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2));
+}
+
+.mannequin-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.clothing-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transform-style: preserve-3d; /* 3D for clothing items */
+}
+
+.placed-item {
+  position: absolute;
+  pointer-events: auto;
+  transition: transform 0.3s ease;
+  transform-style: preserve-3d; /* 3D for placed items */
+}
+
+.placed-item:hover {
+  transform: scale(1.05) translateZ(10px) !important; /* 3D hover effect */
+}
+
+.clothing-image {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  filter:
+    drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))
+    contrast(1.1)
+    saturate(1.1);
+}
+
+/* Category-specific 3D positioning and effects */
+.category-top .clothing-image {
+  border-radius: 8px 8px 0 0;
+  transform: rotateY(-3deg) rotateX(5deg) translateZ(5px);
+  box-shadow:
+    -2px 4px 12px rgba(0, 0, 0, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.category-bottom .clothing-image {
+  border-radius: 0 0 8px 8px;
+  transform: rotateY(-2deg) rotateX(-2deg) translateZ(2px);
+  box-shadow:
+    -1px 6px 12px rgba(0, 0, 0, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.category-dress .clothing-image {
+  height: 120px;
+  border-radius: 8px 8px 20px 20px;
+  transform: rotateY(-4deg) rotateX(3deg) translateZ(3px);
+}
+
+.category-shoes .clothing-image {
+  width: 80px;
+  height: 60px;
+  border-radius: 20px 8px 8px 20px;
+  transform: rotateY(-1deg) rotateX(-5deg) translateZ(1px);
+  box-shadow:
+    0 8px 12px rgba(0, 0, 0, 0.4),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.category-accessories .clothing-image {
+  width: 60px;
+  height: 60px;
+  transform: rotateY(-2deg) rotateX(8deg) translateZ(8px);
+  box-shadow:
+    -1px 2px 8px rgba(0, 0, 0, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.remove-item-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #ff4757;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.placed-item:hover .remove-item-btn {
+  opacity: 1;
+}
+
+.drop-hint {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
+  z-index: 1;
+}
+
+.drop-hint p {
+  margin: 0;
+  font-weight: 500;
+}

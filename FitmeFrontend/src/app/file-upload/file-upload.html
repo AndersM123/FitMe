@@ -1,0 +1,70 @@
+<!-- src/app/file-upload/file-upload.html -->
+<div class="upload-container">
+  <h3>Add New Clothing Item</h3>
+
+  <!-- File Input -->
+  <div class="file-input-area">
+    <input
+      type="file"
+      id="file-input"
+      accept="image/*"
+      (change)="onFileSelected($event)"
+      [disabled]="isProcessing()">
+
+    <label for="file-input" class="file-input-label">
+      <div class="upload-icon">📸</div>
+      <p>Click to upload or drag & drop</p>
+      <small>JPG, PNG, WEBP up to 10MB</small>
+    </label>
+  </div>
+
+  <!-- Preview & Form -->
+  <div *ngIf="previewImage()" class="preview-section">
+    <div class="image-preview">
+      <img [src]="previewImage()" alt="Preview">
+
+      <!-- Processing Overlay -->
+      <div *ngIf="isProcessing()" class="processing-overlay">
+        <div class="spinner"></div>
+        <p>Removing background...</p>
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="uploadProgress()"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Item Details Form -->
+    <div class="item-form" *ngIf="!isProcessing()">
+      <div class="form-group">
+        <label>Item Name</label>
+        <input
+          type="text"
+          [value]="itemName()"
+          (input)="updateName($event)"
+          placeholder="e.g., Blue Denim Jacket">
+      </div>
+
+      <div class="form-group">
+        <label>Category</label>
+        <div class="category-buttons">
+          <button
+            *ngFor="let cat of categories"
+            [class.active]="selectedCategory() === cat.value"
+            (click)="updateCategory(cat.value)"
+            class="category-btn">
+            {{ cat.label }}
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Primary Color</label>
+        <input
+          type="text"
+          [value]="itemColor()"
+          (input)="updateColor($event)"
+          placeholder="e.g., Blue, Red, Black">
+      </div>
+    </div>
+  </div>
+</div>

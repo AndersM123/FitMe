@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+@media screen and (max-width: 768px) {
+  .mannequin-container {
+    width: 100vw;
+    height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+}
+
+/* iOS touch improvements */
+   .draggable-item {
+     touch-action: none;
+     -webkit-touch-callout: none;
+     -webkit-user-select: none;
+     user-select: none;
+   }
