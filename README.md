@@ -1,33 +1,43 @@
-🧥 FitMe — Your Virtual Wardrobe
+# 🧥 FitMe — Your Virtual Wardrobe
 
-FitMe is a modern web app that lets users digitize their clothing, organize outfits, and try them on virtually.
-Built with Angular (frontend) and a Node/Python backend, it combines AI background removal and an interactive drag-and-drop mannequin to make outfit planning simple and fun.
+**FitMe** is a modern web app that lets users digitize their clothing, organize outfits, and try them on virtually.  
+Built with **Angular (frontend)** and a **Node/Python backend**, it combines AI background removal and an interactive drag-and-drop mannequin to make outfit planning simple and fun.
 
-✨ Features
+---
 
-📸 Upload Your Clothes
-Take or upload photos of your clothes directly from your phone or computer.
+## ✨ Features
 
-🧠 AI-Powered Background Removal
-Automatically removes image backgrounds using a Hugging Face model for clean, transparent cutouts.
+- **📸 Upload Your Clothes**  
+  Take or upload photos of your clothes directly from your phone or computer.
 
-🧍 Virtual Mannequin
-Drag and drop clothing items onto a mannequin to visualize outfit combinations.
+- **🧠 AI-Powered Background Removal**  
+  Automatically removes image backgrounds using a **Hugging Face model** for clean, transparent cutouts.
 
-👕 Organized Wardrobe
-Store, categorize, and preview all your items in a personalized digital wardrobe.
+- **🧍 Virtual Mannequin**  
+  Drag and drop clothing items onto a mannequin to visualize outfit combinations.
 
-⚡ Progressive Web App (PWA)
-Works on both desktop and mobile — installable like a native iPhone app.
+- **👕 Organized Wardrobe**  
+  Store, categorize, and preview all your items in a personalized digital wardrobe.
 
-🛠️ Tech Stack
-Area	Technology
-Frontend	Angular, TypeScript, SCSS
-Backend	Node.js / Express, Python (for AI model integration)
-AI / ML	Hugging Face Trendyol/background-removal
-Storage	Local uploads (S3 or Cloudinary ready)
-Version Control	Git + GitHub
-Architecture	Modular monorepo (FitmeFrontend + FitmeBackend)
+- **⚡ Progressive Web App (PWA)**  
+  Works on both desktop and mobile — installable like a native iPhone app.
+
+---
+
+## 🛠️ Tech Stack
+
+| Area | Technology |
+|------|-------------|
+| Frontend | **Angular**, TypeScript, SCSS |
+| Backend | **Node.js / Express**, **Python** (for AI model integration) |
+| AI / ML | **Hugging Face** `Trendyol/background-removal` |
+| Storage | Local uploads (S3 or Cloudinary ready) |
+| Version Control | Git + GitHub |
+| Architecture | Modular monorepo (`FitmeFrontend` + `FitmeBackend`) |
+
+---
+
+## 🚀 Project Structure
 
 🚀 Project Structure
   FitMe/
