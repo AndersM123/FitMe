@@ -59,13 +59,26 @@ export class MannequinComponent {
     clothingImg.src = item.imageUrl;
 
     clothingImg.onload = () => {
-      const scale = this.getScaleForCategory(item.category);
-      const clothingWidth = clothingImg.width * scale;
-      const clothingHeight = clothingImg.height * scale;
+      const baseScale = this.getScaleForCategory(item.category);
+      let desiredWidth = clothingImg.width * baseScale;
+      let desiredHeight = clothingImg.height * baseScale;
 
-      const centeredPosition = {
-        x: anchor.x - clothingWidth / 2,
-        y: anchor.y - clothingHeight / 2
+      // Constrain by category-specific bounds relative to mannequin size
+      const bounds = this.getMaxBoundsForCategory(item.category, rect.width, rect.height);
+      const fitScale = Math.min(bounds.maxWidth / desiredWidth, bounds.maxHeight / desiredHeight, 1);
+      const clothingWidth = desiredWidth * fitScale;
+      const clothingHeight = desiredHeight * fitScale;
+
+      const offset = this.getAnchorOffset(item.category, clothingWidth, clothingHeight);
+      let centeredPosition = {
+        x: anchor.x - clothingWidth / 2 + offset.x,
+        y: anchor.y - clothingHeight / 2 + offset.y
+      };
+
+      // Clamp to keep within the try-on area
+      centeredPosition = {
+        x: Math.max(0, Math.min(centeredPosition.x, rect.width - clothingWidth)),
+        y: Math.max(0, Math.min(centeredPosition.y, rect.height - clothingHeight))
       };
 
       const placedItem: PlacedItem = {
@@ -73,7 +86,7 @@ export class MannequinComponent {
         imageUrl: item.imageUrl,
         name: item.name,
         category: item.category,
-        position: anchor,
+        position: centeredPosition,
         zIndex: this.getZIndexForCategory(item.category),
         width: clothingWidth,
         height: clothingHeight
@@ -100,34 +113,19 @@ export class MannequinComponent {
 
     switch (category) {
       case 'top':
-        return {
-          x: mannequinCenterX - 50,    // Center on mannequin torso
-          y: mannequinTop + 120        // Upper torso area
-        };
+        return { x: mannequinCenterX, y: mannequinTop + 120 };
       case 'bottom':
-        return {
-          x: mannequinCenterX - 50,    // Center on mannequin
-          y: mannequinTop + 200        // Lower torso/hip area
-        };
+        return { x: mannequinCenterX, y: mannequinTop + 225 };
       case 'dress':
-        return {
-          x: mannequinCenterX - 60,    // Slightly wider for dress
-          y: mannequinTop + 140        // Full torso coverage
-        };
+        return { x: mannequinCenterX, y: mannequinTop + 170 };
       case 'shoes':
-        return {
-          x: mannequinCenterX - 40,    // Center on feet
-          y: mannequinTop + 340        // Feet area
-        };
+        return { x: mannequinCenterX, y: mannequinTop + 355 };
       case 'accessories':
-        return {
-          x: mannequinCenterX - 30,    // Center on neck
-          y: mannequinTop + 80         // Neck/head area
-        };
+        return { x: mannequinCenterX, y: mannequinTop + 80 };
       default:
         return {
-          x: Math.max(10, Math.min(dropX - 50, centerX * 2 - 110)),
-          y: Math.max(10, Math.min(dropY - 50, centerY * 2 - 110))
+          x: Math.max(10, Math.min(dropX, centerX * 2 - 10)),
+          y: Math.max(10, Math.min(dropY, centerY * 2 - 10))
         };
     }
   }
@@ -153,6 +151,42 @@ export class MannequinComponent {
       'accessories': 0.5
     };
     return scaleMap[category] || 0.8;
+  }
+
+  private getMaxBoundsForCategory(category: string, areaWidth: number, areaHeight: number): { maxWidth: number; maxHeight: number } {
+    // Use a portion of the whole try-on area so items can be larger than the mannequin silhouette
+    switch (category) {
+      case 'top':
+        return { maxWidth: areaWidth * 0.35, maxHeight: areaHeight * 0.32 };
+      case 'bottom':
+        return { maxWidth: areaWidth * 0.38, maxHeight: areaHeight * 0.38 };
+      case 'dress':
+        return { maxWidth: areaWidth * 0.45, maxHeight: areaHeight * 0.48 };
+      case 'shoes':
+        return { maxWidth: areaWidth * 0.30, maxHeight: areaHeight * 0.20 };
+      case 'accessories':
+        return { maxWidth: areaWidth * 0.25, maxHeight: areaHeight * 0.20 };
+      default:
+        return { maxWidth: areaWidth * 0.40, maxHeight: areaHeight * 0.40 };
+    }
+  }
+
+  private getAnchorOffset(category: string, width: number, height: number): { x: number; y: number } {
+    // Fine-tune how each category sits on the mannequin relative to its anchor
+    switch (category) {
+      case 'top':
+        return { x: 0, y: -0.1 * height }; // raise tops slightly
+      case 'bottom':
+        return { x: 0, y: 0.05 * height }; // lower bottoms a touch
+      case 'dress':
+        return { x: 0, y: -0.05 * height }; // nudge dresses up a bit
+      case 'shoes':
+        return { x: 0, y: 0.08 * height }; // push shoes down slightly
+      case 'accessories':
+        return { x: 0, y: -0.15 * height }; // lift accessories towards neck/head
+      default:
+        return { x: 0, y: 0 };
+    }
   }
 
   removeItem(itemId: string) {

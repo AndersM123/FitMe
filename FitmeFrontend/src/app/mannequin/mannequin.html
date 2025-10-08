@@ -47,7 +47,7 @@
     <!-- Placed Clothing Items -->
     <div class="clothing-layer">
       <div *ngFor="let item of placedItems()"
-           class="placed-item category-{item.category}}"
+           [ngClass]="['placed-item', 'category-' + item.category]"
            [style.left.px]="item.position.x"
            [style.top.px]="item.position.y"
            [style.z-index]="item.zIndex"
