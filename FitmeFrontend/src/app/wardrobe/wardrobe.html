@@ -9,6 +9,14 @@
     </button>
   </div>
 
+  <!-- Upload Modal (rendered once) -->
+  <div *ngIf="showUpload()" class="upload-modal">
+    <div class="upload-modal-content">
+      <button class="close-btn" (click)="showUpload.set(false)">×</button>
+      <app-file-upload (clothingAdded)="onClothingAdded($event)"></app-file-upload>
+    </div>
+  </div>
+
   <!-- Category Filter -->
   <div class="category-filter">
     <button
@@ -32,14 +40,6 @@
          class="item-card"
          draggable="true"
          (dragstart)="onDragStart($event, item)">
-
-      <!-- Upload Modal -->
-      <div *ngIf="showUpload()" class="upload-modal">
-        <div class="upload-modal-content">
-          <button class="close-btn" (click)="showUpload.set(false)">×</button>
-          <app-file-upload (clothingAdded)="onClothingAdded($event)"></app-file-upload>
-        </div>
-      </div>
 
       <!-- Favorite Button -->
       <button
