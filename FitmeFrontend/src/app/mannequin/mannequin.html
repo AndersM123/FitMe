@@ -11,39 +11,6 @@
        (dragover)="onDragOver($event)"
        (drop)="onDrop($event)">
 
-    <!-- Mannequin Base -->
-    <div class="mannequin-base">
-      <!-- Simple SVG mannequin silhouette -->
-      <svg viewBox="0 0 200 400" class="mannequin-svg">
-        <!-- Head -->
-        <ellipse cx="100" cy="40" rx="25" ry="30" fill="#f0f0f0" stroke="#ddd"/>
-
-        <!-- Neck -->
-        <rect x="90" y="65" width="20" height="15" fill="#f0f0f0" stroke="#ddd"/>
-
-        <!-- Torso -->
-        <ellipse cx="100" cy="140" rx="45" ry="60" fill="#f0f0f0" stroke="#ddd"/>
-
-        <!-- Arms -->
-        <ellipse cx="60" cy="120" rx="15" ry="40" fill="#f0f0f0" stroke="#ddd"/>
-        <ellipse cx="140" cy="120" rx="15" ry="40" fill="#f0f0f0" stroke="#ddd"/>
-
-        <!-- Waist -->
-        <ellipse cx="100" cy="220" rx="35" ry="20" fill="#f0f0f0" stroke="#ddd"/>
-
-        <!-- Hips/Legs -->
-        <ellipse cx="100" cy="280" rx="40" ry="50" fill="#f0f0f0" stroke="#ddd"/>
-
-        <!-- Legs -->
-        <rect x="80" y="320" width="15" height="60" fill="#f0f0f0" stroke="#ddd"/>
-        <rect x="105" y="320" width="15" height="60" fill="#f0f0f0" stroke="#ddd"/>
-
-        <!-- Feet -->
-        <ellipse cx="87" cy="385" rx="12" ry="8" fill="#f0f0f0" stroke="#ddd"/>
-        <ellipse cx="113" cy="385" rx="12" ry="8" fill="#f0f0f0" stroke="#ddd"/>
-      </svg>
-    </div>
-
     <!-- Placed Clothing Items -->
     <div class="clothing-layer">
       <div *ngFor="let item of placedItems()"

@@ -99,29 +99,21 @@ export class MannequinComponent {
   }
 
   private getSmartPosition(category: string, dropX: number, dropY: number, centerX: number, centerY: number) {
-    // The mannequin SVG is 200px wide and centered in the area
-    // So the mannequin actually starts at: centerX - 100
-    const mannequinLeft = centerX - 100;  // Left edge of mannequin
-    const mannequinCenterX = centerX;     // Center of mannequin
-    const mannequinTop = centerY - 200;   // Top of mannequin (400px tall)
-
-    console.log('Mannequin bounds:', {
-      left: mannequinLeft,
-      centerX: mannequinCenterX,
-      top: mannequinTop
-    });
+    // Without mannequin, define anchors relative to the canvas itself
+    const mannequinCenterX = centerX;
+    const mannequinTop = centerY - (0.5 * (centerY * 2));
 
     switch (category) {
       case 'top':
-        return { x: mannequinCenterX, y: mannequinTop + 120 };
+        return { x: mannequinCenterX, y: centerY * 0.30 };
       case 'bottom':
-        return { x: mannequinCenterX, y: mannequinTop + 225 };
+        return { x: mannequinCenterX, y: centerY * 0.90 };
       case 'dress':
-        return { x: mannequinCenterX, y: mannequinTop + 170 };
+        return { x: mannequinCenterX, y: centerY * 0.50 };
       case 'shoes':
-        return { x: mannequinCenterX, y: mannequinTop + 355 };
+        return { x: mannequinCenterX, y: centerY * 1.60 };
       case 'accessories':
-        return { x: mannequinCenterX, y: mannequinTop + 80 };
+        return { x: mannequinCenterX, y: centerY * 0.18 };
       default:
         return {
           x: Math.max(10, Math.min(dropX, centerX * 2 - 10)),
@@ -147,7 +139,7 @@ export class MannequinComponent {
       'top': 0.8,
       'bottom': 0.7,
       'dress': 0.9,
-      'shoes': 0.6,
+      'shoes': 0.8,
       'accessories': 0.5
     };
     return scaleMap[category] || 0.8;
@@ -157,17 +149,17 @@ export class MannequinComponent {
     // Use a portion of the whole try-on area so items can be larger than the mannequin silhouette
     switch (category) {
       case 'top':
-        return { maxWidth: areaWidth * 0.35, maxHeight: areaHeight * 0.32 };
+        return { maxWidth: areaWidth * 0.60, maxHeight: areaHeight * 0.55 };
       case 'bottom':
-        return { maxWidth: areaWidth * 0.38, maxHeight: areaHeight * 0.38 };
+        return { maxWidth: areaWidth * 0.58, maxHeight: areaHeight * 0.56 };
       case 'dress':
-        return { maxWidth: areaWidth * 0.45, maxHeight: areaHeight * 0.48 };
+        return { maxWidth: areaWidth * 0.55, maxHeight: areaHeight * 0.58 };
       case 'shoes':
-        return { maxWidth: areaWidth * 0.30, maxHeight: areaHeight * 0.20 };
+        return { maxWidth: areaWidth * 0.32, maxHeight: areaHeight * 0.22 };
       case 'accessories':
-        return { maxWidth: areaWidth * 0.25, maxHeight: areaHeight * 0.20 };
+        return { maxWidth: areaWidth * 0.28, maxHeight: areaHeight * 0.22 };
       default:
-        return { maxWidth: areaWidth * 0.40, maxHeight: areaHeight * 0.40 };
+        return { maxWidth: areaWidth * 0.50, maxHeight: areaHeight * 0.50 };
     }
   }
 
@@ -175,9 +167,9 @@ export class MannequinComponent {
     // Fine-tune how each category sits on the mannequin relative to its anchor
     switch (category) {
       case 'top':
-        return { x: 0, y: -0.1 * height }; // raise tops slightly
+        return { x: 0, y: -0.08 * height }; // raise tops slightly
       case 'bottom':
-        return { x: 0, y: 0.05 * height }; // lower bottoms a touch
+        return { x: 0, y: 0.20 * height }; // push bottoms down a bit more
       case 'dress':
         return { x: 0, y: -0.05 * height }; // nudge dresses up a bit
       case 'shoes':
