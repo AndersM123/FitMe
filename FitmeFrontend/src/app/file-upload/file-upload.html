@@ -33,8 +33,8 @@
       </div>
     </div>
 
-    <!-- Item Details Form -->
-    <div class="item-form" *ngIf="!isProcessing()">
+    <!-- Item Details Form (shown after processing completes) -->
+    <div class="item-form" *ngIf="!isProcessing() && processedImage()">
       <div class="form-group">
         <label>Item Name</label>
         <input
@@ -64,6 +64,10 @@
           [value]="itemColor()"
           (input)="updateColor($event)"
           placeholder="e.g., Blue, Red, Black">
+      </div>
+
+      <div class="form-actions">
+        <button class="primary-btn" (click)="saveItem()">Save Item</button>
       </div>
     </div>
   </div>

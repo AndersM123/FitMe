@@ -2,10 +2,12 @@ import {Component, EventEmitter, Output, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ImageCropperService} from '../services/image-cropper';
 
+type ClothingCategory = 'top' | 'bottom' | 'dress' | 'shoes' | 'accessories';
+
 interface UploadClothing {
   id: string;
   name: string;
-  category: string;
+  category: ClothingCategory;
   color: string;
   originalImage: string;
   croppedImage: string;
@@ -24,13 +26,14 @@ export class FileUploadComponent {
   isProcessing = signal(false);
   uploadProgress = signal(0);
   previewImage = signal<string | null>(null);
+  processedImage = signal<string | null>(null);
 
   // Form data
-  selectedCategory = signal('top');
+  selectedCategory = signal<ClothingCategory>('top');
   itemName = signal(' ');
   itemColor = signal(' ');
 
-  categories = [
+  categories: { value: ClothingCategory; label: string }[] = [
     { value: 'top', label: 'Top' },
     { value: 'bottom', label: 'Bottom' },
     { value: 'dress', label: 'Dress' },
@@ -81,22 +84,8 @@ export class FileUploadComponent {
       // Complete progress
       clearInterval(progressInterval);
       this.uploadProgress.set(100);
-
-      // Create clothing item
-      const clothingItem: UploadClothing = {
-        id: `upload-${Date.now()}`,
-        name: this.itemName() ||'New Item',
-        category: this.selectedCategory(),
-        color: this.itemColor() || 'Unknown',
-        originalImage: this.previewImage()!,
-        croppedImage: croppedImageUrl,
-      };
-
-      // Emit to parent
-      this.clothingAdded.emit(clothingItem);
-
-      // Reset form
-      this.resetForm();
+      // Store processed image and show form for user to confirm details
+      this.processedImage.set(croppedImageUrl);
 
     } catch (error) {
       console.error('Image processing failed: ', error);
@@ -108,6 +97,7 @@ export class FileUploadComponent {
 
   private resetForm() {
     this.previewImage.set(null);
+    this.processedImage.set(null);
     this.itemName.set('');
     this.itemColor.set('');
     this.uploadProgress.set(0);
@@ -123,8 +113,22 @@ export class FileUploadComponent {
     this.itemColor.set(input.value);
   }
 
-  updateCategory(category: string) {
+  updateCategory(category: ClothingCategory) {
     this.selectedCategory.set(category);
+  }
+
+  saveItem() {
+    if (!this.previewImage()) return;
+    const clothingItem: UploadClothing = {
+      id: `upload-${Date.now()}`,
+      name: this.itemName() || 'New Item',
+      category: this.selectedCategory(),
+      color: this.itemColor() || 'Unknown',
+      originalImage: this.previewImage()!,
+      croppedImage: this.processedImage() || this.previewImage()!,
+    };
+    this.clothingAdded.emit(clothingItem);
+    this.resetForm();
   }
 
 

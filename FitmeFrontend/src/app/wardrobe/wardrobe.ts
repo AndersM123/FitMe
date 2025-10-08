@@ -133,7 +133,7 @@ export class WardrobeComponent {
       id: uploadedItem.id,
       name: uploadedItem.name,
       imageUrl: uploadedItem.croppedImage || uploadedItem.originalImage,
-      category: uploadedItem.category as any,
+      category: uploadedItem.category,
       color: uploadedItem.color,
       isFavorite: false
     };
