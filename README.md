@@ -39,38 +39,49 @@ Built with **Angular (frontend)** and a **Node/Python backend**, it combines AI 
 
 ## 🚀 Project Structure
 
-🚀 Project Structure
-  FitMe/
-  ├── FitmeFrontend/           # Angular PWA
-  │   ├── src/app/             # Components & services
-  │   └── ...
-  ├── FitmeBackend/            # Node.js / Express backend
-  │   ├── python_backend/      # Python-based AI utilities
-  │   │   └── background-removal/
-  │   └── ...
-  └── README.md
+| Folder | Description |
+|---------|--------------|
+| **FitmeFrontend/** | Angular Progressive Web App (PWA) |
+| ├── **src/app/** | Core components, pages, and services |
+| ├── **assets/** | Static assets (icons, mock images, etc.) |
+| └── ... | Other Angular configuration files |
+| **FitmeBackend/** | Node.js + Express backend API |
+| ├── **server.js** | Main server entry point (routes to Python) |
+| ├── **python_backend/** | Python-based AI integration layer |
+| │ └── **background-removal/** | Trendyol IS-Net background removal model |
+| │     ├── `server.py` | FastAPI model endpoint |
+| │     ├── `model.onnx` | ONNX model weights |
+| │     ├── `utils.py` | Image preprocessing utilities |
+| │     └── `requirements.txt` | Python dependencies |
+| └── ... | Other backend support files |
+| **README.md** | Project overview, setup instructions, and documentation |
+
+---
 
 🧩 Setup Guide
 1. Clone the repo
-  git clone https://github.com/AndersM123/FitMe.git
-  cd FitMe
+ - git clone https://github.com/AndersM123/FitMe.git
+ - cd FitMe
 
 2. Frontend setup
-  cd FitmeFrontend
-  npm install
-  npm start
+
+ - cd FitmeFrontend
+
+ - npm install
+  
+ - npm start
 
 The app will start on http://localhost:4200
 
 3. The backend setup
-  cd ../FitmeBackend
-  npm install
-  npm run start
+ - cd ../FitmeBackend
+ - npm install
+ - npm run start
 
 4. The backend setup for the ai model
-  cd python_backend/background-removal
-  pip install -r requirements.txt
-  python app.py
+ - cd python_backend/background-removal
+ - pip install -r requirements.txt
+ - python app.py
 
 
 🤝 Contributing
