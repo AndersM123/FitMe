@@ -64,24 +64,25 @@ Built with **Angular (frontend)** and a **Node/Python backend**, it combines AI 
  - cd FitMe
 
 2. Frontend setup
-
  - cd FitmeFrontend
-
  - npm install
-  
- - npm start
+ - ng serve
 
 The app will start on http://localhost:4200
 
 3. The backend setup
  - cd ../FitmeBackend
- - npm install
- - npm run start
+ - node server.js
 
 4. The backend setup for the ai model
  - cd python_backend/background-removal
  - pip install -r requirements.txt
- - python app.py
+ - pip install fastapi uvicorn
+ - python -m uvicorn server:app --port 7000
+
+ - Test the python backend (optional)
+ -   curl -X POST http://localhost:7000/remove-background --data-binary "@sample.jpg" -o result.png
+
 
 
 🤝 Contributing
