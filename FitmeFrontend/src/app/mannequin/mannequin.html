@@ -11,6 +11,12 @@
        (dragover)="onDragOver($event)"
        (drop)="onDrop($event)">
 
+    <ko-stage [config]="stageConfig">
+      <ko-layer [config]="layerConfig">
+        <ko-image *ngFor="let item of placedItems()" [config]="item"></ko-image>
+      </ko-layer>
+    </ko-stage>
+
     <!-- Placed Clothing Items -->
     <div class="clothing-layer">
       <div *ngFor="let item of placedItems()"

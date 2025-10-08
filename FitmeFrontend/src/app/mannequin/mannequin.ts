@@ -1,6 +1,7 @@
 // src/app/mannequin/mannequin.ts
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgxKonvaModule } from 'ngx-konva';
 
 interface PlacedItem {
   id: string;
@@ -16,13 +17,19 @@ interface PlacedItem {
 @Component({
   selector: 'app-mannequin',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgxKonvaModule],
   templateUrl: './mannequin.html',
   styleUrl: './mannequin.css'
 })
 export class MannequinComponent {
-  placedItems = signal<PlacedItem[]>([]);
+  stageConfig = {
+    width: 350,
+    height: 600,
+  };
 
+  layerConfig = {};
+
+  placedItems = signal<any[]>([]);
 
   onDragOver(event: DragEvent) {
     event.preventDefault();
@@ -63,39 +70,38 @@ export class MannequinComponent {
       let desiredWidth = clothingImg.width * baseScale;
       let desiredHeight = clothingImg.height * baseScale;
 
-      // Constrain by category-specific bounds relative to mannequin size
       const bounds = this.getMaxBoundsForCategory(item.category, rect.width, rect.height);
       const fitScale = Math.min(bounds.maxWidth / desiredWidth, bounds.maxHeight / desiredHeight, 1);
       const clothingWidth = desiredWidth * fitScale;
       const clothingHeight = desiredHeight * fitScale;
 
       const offset = this.getAnchorOffset(item.category, clothingWidth, clothingHeight);
-      let centeredPosition = {
+      let position = {
         x: anchor.x - clothingWidth / 2 + offset.x,
         y: anchor.y - clothingHeight / 2 + offset.y
       };
 
-      // Clamp to keep within the try-on area
-      centeredPosition = {
-        x: Math.max(0, Math.min(centeredPosition.x, rect.width - clothingWidth)),
-        y: Math.max(0, Math.min(centeredPosition.y, rect.height - clothingHeight))
+      // clamp
+      position = {
+        x: Math.max(0, Math.min(position.x, rect.width - clothingWidth)),
+        y: Math.max(0, Math.min(position.y, rect.height - clothingHeight))
       };
 
-      const placedItem: PlacedItem = {
-        id: `placed-${Date.now()}`,
-        imageUrl: item.imageUrl,
+      const config = {
+        x: position.x,
+        y: position.y,
+        image: clothingImg,
+        draggable: true,
+        width: clothingWidth,
+        height: clothingHeight,
         name: item.name,
         category: item.category,
-        position: centeredPosition,
-        zIndex: this.getZIndexForCategory(item.category),
-        width: clothingWidth,
-        height: clothingHeight
       };
 
-      // Add to placed items
-      const currentItems = this.placedItems();
-      this.placedItems.set([...currentItems, placedItem]);
-    }
+      const current = this.placedItems();
+      this.placedItems.set([...current, config]);
+    };
+
   }
 
   private getSmartPosition(category: string, dropX: number, dropY: number, centerX: number, centerY: number) {
