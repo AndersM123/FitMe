@@ -26,5 +26,23 @@
         ]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "fitme-api",
+      "urls": [
+        "http://localhost:5000/**",
+        "https://huggingface.co/**",
+        "https://api.fitme.vercel.app/**"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 50,
+        "maxAge": "1h",
+        "timeout": "10s"
+      }
+    }
   ]
+
 }
+
