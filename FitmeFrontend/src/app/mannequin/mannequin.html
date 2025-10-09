@@ -17,26 +17,6 @@
       </ko-layer>
     </ko-stage>
 
-    <!-- Placed Clothing Items -->
-    <div class="clothing-layer">
-      <div *ngFor="let item of placedItems()"
-           [ngClass]="['placed-item', 'category-' + item.category]"
-           [style.left.px]="item.position.x"
-           [style.top.px]="item.position.y"
-           [style.z-index]="item.zIndex"
-           [style.width.px]="item.width"
-           [style.height.px]="item.height">
-
-        <img [src]="item.imageUrl"
-             [alt]="item.name"
-             class="clothing-image">
-
-        <button class="remove-item-btn"
-                (click)="removeItem(item.id)"
-                title="Remove item">×</button>
-      </div>
-    </div>
-
     <!-- Drop Zone Hint -->
     <div *ngIf="placedItems().length === 0" class="drop-hint">
       <p>👗 Drag clothing here to try it on!</p>
