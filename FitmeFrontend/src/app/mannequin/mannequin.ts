@@ -23,8 +23,8 @@ interface PlacedItem {
 })
 export class MannequinComponent {
   stageConfig = {
-    width: 350,
-    height: 600,
+    width: 400,
+    height: 750,
   };
 
   layerConfig = {};
