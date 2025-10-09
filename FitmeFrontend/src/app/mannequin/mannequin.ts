@@ -1,7 +1,7 @@
 // src/app/mannequin/mannequin.ts
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgxKonvaModule } from 'ngx-konva';
+import { CoreShapeComponent, StageComponent } from 'ng2-konva';
 
 interface PlacedItem {
   id: string;
@@ -17,7 +17,7 @@ interface PlacedItem {
 @Component({
   selector: 'app-mannequin',
   standalone: true,
-  imports: [CommonModule, NgxKonvaModule],
+  imports: [CommonModule, CoreShapeComponent, StageComponent],
   templateUrl: './mannequin.html',
   styleUrl: './mannequin.css'
 })
