@@ -1,6 +1,23 @@
 {
-    "rewrites": [
-      { "source": "/(.*)", "destination": "/index.html" }
+    "builds": [
+      {
+        "src": "FitmeBackend/index.js",
+        "use": "@vercel/node"
+      },
+      {
+        "src": "FitmeFrontend/dist/**",
+        "use": "@vercel/static"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "FitmeBackend/index.js"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "FitmeFrontend/dist/$1"
+      }
     ],
     "headers": [
       {

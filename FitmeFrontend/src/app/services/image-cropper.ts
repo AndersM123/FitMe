@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environments';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImageCropperService {
 
-  private apiUrl = 'http://localhost:5000/remove-background'; // backend endpoint
+  private apiUrl = environment.apiUrl; // backend endpoint
 
   constructor(private http: HttpClient) {}
 
