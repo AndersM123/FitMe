@@ -3,13 +3,16 @@ import fetch from "node-fetch";
 import multer from "multer";
 import fs from "fs";
 import cors from "cors";
+import dotenv from "dotenv";
 
 const app = express();
 app.use(cors());
 const upload = multer({ dest: "uploads/" });
 
 // Your local Python server URL
-const PYTHON_API = "http://localhost:7000/remove-background";
+const PORT = process.env.PORT || 5000;
+
+const PYTHON_API = process.env.PYTHON_API;
 
 app.post("/remove-background", upload.single("image"), async (req, res) => {
   try {
