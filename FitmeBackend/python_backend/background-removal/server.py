@@ -4,6 +4,7 @@ import onnxruntime as ort
 from utils import process_image
 import uuid
 import os
+import tempfile
 
 app = FastAPI()
 
@@ -18,15 +19,19 @@ async def remove_background(request: Request):
 
         # Generate unique temp filenames to avoid conflicts
         uid = str(uuid.uuid4())
-        temp_input_path = f"/tmp/input_{uid}.jpg"
-        output_path = f"/tmp/output_{uid}.png"
 
+        tmp_dir = tempfile.gettempdir()
+        temp_input_path = os.path.join(tmp_dir, f"input_{uid}.jpg")
+        output_path = os.path.join(tmp_dir, f"output_{uid}.png")
+
+        print("Saving temp file:", temp_input_path)
         with open(temp_input_path, "wb") as f:
             f.write(file_bytes)
 
         # Process image
         process_image(temp_input_path, ort_session, MODEL_PATH, output_path)
 
+        print("Reading output:", output_path)
         with open(output_path, "rb") as f:
             img_bytes = f.read()
 
