@@ -9,14 +9,30 @@ dotenv.config();
 
 const app = express();
 app.use(cors());
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ dest: "python_backend/background-removal" });
+
 
 // Your local Python server URL
-const PYTHON_API = process.env.PYTHON_API;
+const PYTHON_API = process.env.PYTHON_API || "http://localhost:7000/remove-background";
 const PORT = process.env.PORT || 5000;
+
+console.log("🧩 Using Python API:", PYTHON_API);
+console.log("🔧 Running in environment:", process.env.NODE_ENV);
+
+app.use(cors({
+  origin: "http://localhost:4200",
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"]
+}));
 
 app.post("/remove-background", upload.single("image"), async (req, res) => {
   try {
+    if (!req.file) {
+      console.error("No file recieved in request");
+      return res.status(400).send("No image file provided");
+    }
+    console.log("File recieved: ", req.file.path);
+
     const fileBuffer = fs.readFileSync(req.file.path);
 
     // Send to Python FastAPI
@@ -33,6 +49,8 @@ app.post("/remove-background", upload.single("image"), async (req, res) => {
     }
 
     const arrayBuffer = await response.arrayBuffer();
+    console.log("✅ Image received from Python backend");
+
     res.set("Content-Type", "image/png");
     res.send(Buffer.from(arrayBuffer));
   } catch (err) {
@@ -40,12 +58,13 @@ app.post("/remove-background", upload.single("image"), async (req, res) => {
     res.status(500).send("Processing failed");
   } finally {
     fs.unlinkSync(req.file.path);
+    console.log("🧹 Temp file deleted");
   }
 });
 
 // Make sure it only runs when running locally
 if (process.env.NODE_ENV !== "production") {
-  app.listen(5000, () => console.log("✅ Node API running on http://localhost:5000"));
+  app.listen(PORT, () => console.log("✅ Node API running on http://localhost:${PORT}"));
 }
 
 // Export for vercel
